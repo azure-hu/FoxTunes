@@ -43,15 +43,15 @@ namespace FoxTunes.ViewModel
             {
                 if (this.BackgroundTaskRunner != null)
                 {
-                    this.BackgroundTaskRunner.Run(() => this.AsyncPredicate().ContinueWith(async task =>
-                    {
-                        if (this.CanExecute.HasValue && this.CanExecute.Value == task.Result)
-                        {
-                            return;
-                        }
-                        this.CanExecute = task.Result;
-                        await InvalidateRequerySuggested();
-                    })).Wait();
+                    //this.BackgroundTaskRunner.Run(() => this.AsyncPredicate().ContinueWith(async task =>
+                    //{
+                    //    if (this.CanExecute.HasValue && this.CanExecute.Value == task.Result)
+                    //    {
+                    //        return;
+                    //    }
+                    //    this.CanExecute = task.Result;
+                    //    await InvalidateRequerySuggested();
+                    //})).Wait();
                 }
                 if (this.CanExecute.HasValue)
                 {
@@ -158,15 +158,15 @@ namespace FoxTunes.ViewModel
             {
                 if (this.BackgroundTaskRunner != null)
                 {
-                    this.BackgroundTaskRunner.Run(() => this.AsyncPredicate((T)parameter).ContinueWith(async task =>
-                    {
-                        if (this.CanExecute.HasValue && this.CanExecute.Value == task.Result)
-                        {
-                            return;
-                        }
-                        this.CanExecute = task.Result;
-                        await Command.InvalidateRequerySuggested();
-                    })).Wait();
+                    //this.BackgroundTaskRunner.Run(() => this.AsyncPredicate((T)parameter).ContinueWith(async task =>
+                    //{
+                    //    if (this.CanExecute.HasValue && this.CanExecute.Value == task.Result)
+                    //    {
+                    //        return;
+                    //    }
+                    //    this.CanExecute = task.Result;
+                    //    await Command.InvalidateRequerySuggested();
+                    //})).Wait();
                 }
                 if (this.CanExecute.HasValue)
                 {

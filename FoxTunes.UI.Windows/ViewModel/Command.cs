@@ -69,7 +69,7 @@ namespace FoxTunes.ViewModel
                 return;
             }
             this.Action();
-            InvalidateRequerySuggested();
+            //InvalidateRequerySuggested();
         }
 
         public static Task InvalidateRequerySuggested()
@@ -153,7 +153,7 @@ namespace FoxTunes.ViewModel
                 return;
             }
             this.Action((T)parameter);
-            Command.InvalidateRequerySuggested();
+            //Command.InvalidateRequerySuggested();
         }
     }
 }

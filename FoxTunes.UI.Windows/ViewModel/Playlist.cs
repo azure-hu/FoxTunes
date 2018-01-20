@@ -199,8 +199,10 @@ namespace FoxTunes.ViewModel
         {
             switch (signal.Name)
             {
+                case CommonSignals.PlaylistUpdated:
+                    return this.Refresh();
                 case CommonSignals.PlaylistColumnsUpdated:
-                    return this.ForegroundTaskRunner.RunAsync(() => this.Reload());
+                    return this.Reload();
             }
             return Task.CompletedTask;
         }
@@ -343,32 +345,35 @@ namespace FoxTunes.ViewModel
             }
         }
 
-        protected virtual void Refresh()
+        protected virtual Task Refresh()
         {
-            if (this.GridColumns == null)
+            return this.ForegroundTaskRunner.RunAsync(() =>
             {
-                this.Reload();
-            }
-            if (this.GridColumns != null)
-            {
-                foreach (var column in this.GridColumns)
+                if (this.GridColumns == null)
                 {
-                    this.GridViewColumnFactory.Refresh(column);
-                    if (this.AutoSizeGridColumns)
+                    this.Reload();
+                }
+                if (this.GridColumns != null)
+                {
+                    foreach (var column in this.GridColumns)
                     {
-                        if (double.IsNaN(column.Width))
+                        this.GridViewColumnFactory.Refresh(column);
+                        if (this.AutoSizeGridColumns)
                         {
-                            column.Width = column.ActualWidth;
-                            column.Width = double.NaN;
+                            if (double.IsNaN(column.Width))
+                            {
+                                column.Width = column.ActualWidth;
+                                column.Width = double.NaN;
+                            }
                         }
                     }
                 }
-            }
+            });
         }
 
-        protected virtual void Reload()
+        protected virtual Task Reload()
         {
-            this.GridColumns = new ObservableCollection<GridViewColumn>(this.GetGridColumns());
+            return this.ForegroundTaskRunner.RunAsync(() => this.GridColumns = new ObservableCollection<GridViewColumn>(this.GetGridColumns()));
         }
 
         private bool _SettingsVisible { get; set; }

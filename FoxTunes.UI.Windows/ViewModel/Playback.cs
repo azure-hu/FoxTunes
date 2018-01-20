@@ -18,101 +18,101 @@ namespace FoxTunes.ViewModel
 
         public IPlaybackManager PlaybackManager { get; private set; }
 
-        public ICommand PlayCommand
-        {
-            get
-            {
-                return new AsyncCommand(
-                    this.BackgroundTaskRunner,
-                    () =>
-                    {
-                        if (this.PlaybackManager.CurrentStream == null)
-                        {
-                            return this.PlaylistManager.Next();
-                        }
-                        else if (this.PlaybackManager.CurrentStream.IsPaused)
-                        {
-                            this.PlaybackManager.CurrentStream.Resume();
-                        }
-                        else if (this.PlaybackManager.CurrentStream.IsStopped)
-                        {
-                            this.PlaybackManager.CurrentStream.Play();
-                        }
-                        return Task.CompletedTask;
-                    },
-                    () => this.PlaybackManager != null && this.PlaylistManager != null && (this.PlaybackManager.CurrentStream == null || (this.PlaybackManager.CurrentStream.IsPaused || this.PlaybackManager.CurrentStream.IsStopped))
-                );
-            }
-        }
+        //public ICommand PlayCommand
+        //{
+        //    get
+        //    {
+        //        return new AsyncCommand(
+        //            this.BackgroundTaskRunner,
+        //            () =>
+        //            {
+        //                if (this.PlaybackManager.CurrentStream == null)
+        //                {
+        //                    return this.PlaylistManager.Next();
+        //                }
+        //                else if (this.PlaybackManager.CurrentStream.IsPaused)
+        //                {
+        //                    this.PlaybackManager.CurrentStream.Resume();
+        //                }
+        //                else if (this.PlaybackManager.CurrentStream.IsStopped)
+        //                {
+        //                    this.PlaybackManager.CurrentStream.Play();
+        //                }
+        //                return Task.CompletedTask;
+        //            },
+        //            () => this.PlaybackManager != null && this.PlaylistManager != null && (this.PlaybackManager.CurrentStream == null || (this.PlaybackManager.CurrentStream.IsPaused || this.PlaybackManager.CurrentStream.IsStopped))
+        //        );
+        //    }
+        //}
 
-        public ICommand PauseCommand
-        {
-            get
-            {
-                return new Command(
-                    () =>
-                    {
-                        if (this.PlaybackManager.CurrentStream.IsPaused)
-                        {
-                            this.PlaybackManager.CurrentStream.Resume();
-                        }
-                        else if (this.PlaybackManager.CurrentStream.IsPlaying)
-                        {
-                            this.PlaybackManager.CurrentStream.Pause();
-                        }
-                    },
-                    () => this.PlaybackManager != null && this.PlaybackManager.CurrentStream != null
-                );
-            }
-        }
+        //public ICommand PauseCommand
+        //{
+        //    get
+        //    {
+        //        return new Command(
+        //            () =>
+        //            {
+        //                if (this.PlaybackManager.CurrentStream.IsPaused)
+        //                {
+        //                    this.PlaybackManager.CurrentStream.Resume();
+        //                }
+        //                else if (this.PlaybackManager.CurrentStream.IsPlaying)
+        //                {
+        //                    this.PlaybackManager.CurrentStream.Pause();
+        //                }
+        //            },
+        //            () => this.PlaybackManager != null && this.PlaybackManager.CurrentStream != null
+        //        );
+        //    }
+        //}
 
-        public ICommand StopStreamCommand
-        {
-            get
-            {
-                return new AsyncCommand(
-                    this.BackgroundTaskRunner,
-                    () => this.PlaybackManager.StopStream(),
-                    () => this.PlaybackManager != null && this.PlaybackManager.CurrentStream != null && this.PlaybackManager.CurrentStream.IsPlaying
-                );
-            }
-        }
+        //public ICommand StopStreamCommand
+        //{
+        //    get
+        //    {
+        //        return new AsyncCommand(
+        //            this.BackgroundTaskRunner,
+        //            () => this.PlaybackManager.StopStream(),
+        //            () => this.PlaybackManager != null && this.PlaybackManager.CurrentStream != null && this.PlaybackManager.CurrentStream.IsPlaying
+        //        );
+        //    }
+        //}
 
-        public ICommand StopOutputCommand
-        {
-            get
-            {
-                return new AsyncCommand(
-                    this.BackgroundTaskRunner,
-                    () => this.PlaybackManager.StopOutput(),
-                    () => this.PlaybackManager != null && this.Output != null && this.Output.IsStarted
-                );
-            }
-        }
+        //public ICommand StopOutputCommand
+        //{
+        //    get
+        //    {
+        //        return new AsyncCommand(
+        //            this.BackgroundTaskRunner,
+        //            () => this.PlaybackManager.StopOutput(),
+        //            () => this.PlaybackManager != null && this.Output != null && this.Output.IsStarted
+        //        );
+        //    }
+        //}
 
-        public ICommand PreviousCommand
-        {
-            get
-            {
-                return new AsyncCommand(
-                    this.BackgroundTaskRunner,
-                    () => this.PlaylistManager.Previous(),
-                    async () => this.BackgroundTaskRunner != null && this.PlaylistManager != null && await this.BackgroundTaskRunner.Run(() => this.PlaylistManager.CanNavigate)
-                );
-            }
-        }
+        //public ICommand PreviousCommand
+        //{
+        //    get
+        //    {
+        //        return new AsyncCommand(
+        //            this.BackgroundTaskRunner,
+        //            () => this.PlaylistManager.Previous(),
+        //            async () => this.BackgroundTaskRunner != null && this.PlaylistManager != null && await this.BackgroundTaskRunner.Run(() => this.PlaylistManager.CanNavigate)
+        //        );
+        //    }
+        //}
 
-        public ICommand NextCommand
-        {
-            get
-            {
-                return new AsyncCommand(
-                    this.BackgroundTaskRunner,
-                    () => this.PlaylistManager.Next(),
-                    async () => this.BackgroundTaskRunner != null && this.PlaylistManager != null && await this.BackgroundTaskRunner.Run(() => this.PlaylistManager.CanNavigate)
-                );
-            }
-        }
+        //public ICommand NextCommand
+        //{
+        //    get
+        //    {
+        //        return new AsyncCommand(
+        //            this.BackgroundTaskRunner,
+        //            () => this.PlaylistManager.Next(),
+        //            async () => this.BackgroundTaskRunner != null && this.PlaylistManager != null && await this.BackgroundTaskRunner.Run(() => this.PlaylistManager.CanNavigate)
+        //        );
+        //    }
+        //}
 
         protected override void OnCoreChanged()
         {

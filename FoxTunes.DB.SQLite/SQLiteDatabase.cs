@@ -3,7 +3,8 @@ using FoxDb.Interfaces;
 using FoxTunes.Interfaces;
 using System;
 using System.ComponentModel;
-using System.Data.SQLite;
+using System.Data;
+using Microsoft.Data.Sqlite;
 using System.IO;
 
 namespace FoxTunes
@@ -85,9 +86,11 @@ namespace FoxTunes
 
         private static IProvider GetProvider()
         {
-            var builder = new SQLiteConnectionStringBuilder();
+            var builder = new SqliteConnectionStringBuilder();
             builder.DataSource = DatabaseFileName;
-            builder.JournalMode = SQLiteJournalModeEnum.Wal;
+            //builder.JournalMode = SQLiteJournalModeEnum.Wal;
+            //builder.SyncMode = SynchronizationModes.Off;
+            //builder.DefaultIsolationLevel = IsolationLevel.ReadUncommitted;`
             return new SQLiteProvider(DatabaseFileName);
         }
     }
