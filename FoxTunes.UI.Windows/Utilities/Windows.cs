@@ -208,7 +208,7 @@ namespace FoxTunes
                     return dispatcher.BeginInvoke(action).Task;
                 }
             }
-            return Task.CompletedTask;
+            return TaskHelper.CompletedTask;
         }
 
         public static Task Invoke(Func<Task> func)
@@ -225,7 +225,7 @@ namespace FoxTunes
                     return dispatcher.BeginInvoke(func).Task;
                 }
             }
-            return Task.CompletedTask;
+            return TaskHelper.CompletedTask;
         }
     }
 }

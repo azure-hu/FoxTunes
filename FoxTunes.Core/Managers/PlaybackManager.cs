@@ -157,7 +157,7 @@ namespace FoxTunes.Managers
         {
             if (this.CurrentStream == null)
             {
-                return Task.CompletedTask;
+                return TaskHelper.CompletedTask;
             }
             return this.SetCurrentStream(null);
         }
@@ -182,7 +182,7 @@ namespace FoxTunes.Managers
         {
             if (this.BackgroundTask == null)
             {
-                return Task.CompletedTask;
+                return TaskHelper.CompletedTask;
             }
             var e = new BackgroundTaskEventArgs(backgroundTask);
             this.BackgroundTask(this, e);

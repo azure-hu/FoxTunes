@@ -250,7 +250,7 @@ namespace FoxTunes
         {
             if (this.Started == null)
             {
-                return Task.CompletedTask;
+                return TaskHelper.CompletedTask;
             }
             var e = new AsyncEventArgs();
             this.Started(this, e);
@@ -263,7 +263,7 @@ namespace FoxTunes
         {
             if (this.Completed == null)
             {
-                return Task.CompletedTask;
+                return TaskHelper.CompletedTask;
             }
             var e = new AsyncEventArgs();
             this.Completed(this, e);
@@ -302,7 +302,7 @@ namespace FoxTunes
         {
             if (this.Faulted == null)
             {
-                return Task.CompletedTask;
+                return TaskHelper.CompletedTask;
             }
             var e = new AsyncEventArgs();
             this.Faulted(this, e);

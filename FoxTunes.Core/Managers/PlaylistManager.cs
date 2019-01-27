@@ -72,7 +72,7 @@ namespace FoxTunes.Managers
                 case CommonSignals.PlaylistUpdated:
                     return this.Refresh();
             }
-            return Task.CompletedTask;
+            return TaskHelper.CompletedTask;
         }
 
         public async Task<bool> HasItems()
@@ -518,7 +518,7 @@ namespace FoxTunes.Managers
         {
             if (this.BackgroundTask == null)
             {
-                return Task.CompletedTask;
+                return TaskHelper.CompletedTask;
             }
             var e = new BackgroundTaskEventArgs(backgroundTask);
             this.BackgroundTask(this, e);
@@ -542,7 +542,7 @@ namespace FoxTunes.Managers
                 case CLEAR_PLAYLIST:
                     return this.Clear();
             }
-            return Task.CompletedTask;
+            return TaskHelper.CompletedTask;
         }
     }
 }

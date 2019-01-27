@@ -50,7 +50,7 @@ namespace FoxTunes
 
         protected async Task BeginComplete()
         {
-            await Task.Delay(this.Timeout);
+            await TaskEx.Delay(this.Timeout);
             if (this.Completing)
             {
                 return;
@@ -74,7 +74,7 @@ namespace FoxTunes
         {
             if (this.Complete == null)
             {
-                return Task.CompletedTask;
+                return TaskHelper.CompletedTask;
             }
             var e = new PendingQueueEventArgs<T>(this);
             this.Complete(this, e);

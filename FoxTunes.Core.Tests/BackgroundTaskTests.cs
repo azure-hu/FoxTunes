@@ -35,7 +35,7 @@ namespace FoxTunes
             protected override Task OnRun()
             {
                 Counter++;
-                return Task.CompletedTask;
+                return TaskHelper.CompletedTask;
             }
         }
     }

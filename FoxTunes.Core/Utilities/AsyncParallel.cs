@@ -18,7 +18,7 @@ namespace FoxTunes
             var tasks = new List<Task>(options.MaxDegreeOfParallelism);
             foreach (var element in sequence)
             {
-                tasks.Add(Task.Run(async () =>
+                tasks.Add(TaskEx.Run(async () =>
                 {
                     try
                     {
@@ -39,11 +39,11 @@ namespace FoxTunes
                 }
                 if (tasks.Count == tasks.Capacity)
                 {
-                    await Task.WhenAny(tasks);
+                    await TaskEx.WhenAny(tasks);
                     tasks.RemoveAll(task => task.IsCompleted);
                 }
             }
-            await Task.WhenAll(tasks);
+            await TaskEx.WhenAll(tasks);
             if (exceptions.Any())
             {
                 throw new AggregateException(exceptions);

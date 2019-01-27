@@ -75,7 +75,7 @@ namespace FoxTunes.ViewModel
                     return Windows.Invoke(() => this.RunningTasks.Remove(element));
                 }
             }
-            return Task.CompletedTask;
+            return TaskHelper.CompletedTask;
         }
 
         protected override void OnDisposing()

@@ -104,7 +104,7 @@ namespace FoxTunes.ViewModel
             Logger.Write(this, LogLevel.Error, message, exception);
             if (Error == null)
             {
-                return Task.CompletedTask;
+                return TaskHelper.CompletedTask;
             }
             return Error(this, new ComponentErrorEventArgs(message, exception));
         }

@@ -64,7 +64,7 @@ namespace FoxTunes
         {
             if (!this.PlaybackManager.IsSupported(fileName))
             {
-                return Task.CompletedTask;
+                return TaskHelper.CompletedTask;
             }
             var libraryItem = new LibraryItem()
             {

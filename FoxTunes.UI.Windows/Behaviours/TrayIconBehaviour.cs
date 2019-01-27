@@ -151,7 +151,7 @@ namespace FoxTunes
                         this.OnClose(this, EventArgs.Empty);
                     });
             }
-            return Task.CompletedTask;
+            return TaskHelper.CompletedTask;
         }
 
         public bool IsDisposed { get; private set; }

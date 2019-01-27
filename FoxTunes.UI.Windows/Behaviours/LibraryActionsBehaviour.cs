@@ -34,7 +34,7 @@ namespace FoxTunes
                 case REPLACE_PLAYLIST:
                     return this.SignalEmitter.Send(new Signal(this, CommonSignals.PluginInvocation, component));
             }
-            return Task.CompletedTask;
+            return TaskHelper.CompletedTask;
         }
     }
 }

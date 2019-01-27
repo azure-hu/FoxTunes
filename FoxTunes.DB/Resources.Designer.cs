@@ -155,12 +155,33 @@ namespace FoxTunes {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UPDATE &quot;PlaylistItems&quot;
-        ///SET &quot;Sequence&quot; = &quot;Sequence&quot;
+        ///   Looks up a localized string similar to WITH &quot;CurrentSequence&quot;
+        ///AS
+        ///(	
+        ///		SELECT &quot;Sequence&quot; 
+        ///		FROM &quot;PlaylistItems&quot;
+        ///		WHERE &quot;Id&quot; = @id
+        ///)
         ///
         ///UPDATE &quot;PlaylistItems&quot;
-        ///SET &quot;Sequence&quot; = @Sequence
-        ///WHERE &quot;Id&quot; = @id;.
+        ///SET &quot;Sequence&quot; = 
+        ///(
+        ///	CASE WHEN (SELECT &quot;Sequence&quot; FROM &quot;CurrentSequence&quot;) &lt; @sequence THEN
+        ///		&quot;Sequence&quot; - 1
+        ///	ELSE
+        ///		&quot;Sequence&quot; + 1
+        ///	END
+        ///)
+        ///WHERE 
+        ///(
+        ///	(SELECT &quot;Sequence&quot; FROM &quot;CurrentSequence&quot;) &lt; @sequence 
+        ///		AND &quot;Sequence&quot; BETWEEN (SELECT &quot;Sequence&quot; FROM &quot;CurrentSequence&quot;) 
+        ///			AND @sequence
+        ///) 
+        ///OR 
+        ///(
+        ///	&quot;Sequence&quot; BETWEEN @sequence 
+        ///		AND (SELECT &quot;Sequence&quot; FROM &quot;Current [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MovePlaylistItem {
             get {

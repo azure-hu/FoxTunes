@@ -152,7 +152,7 @@ namespace FoxTunes
                     Windows.Shutdown();
                     break;
             }
-            return Task.CompletedTask;
+            return TaskHelper.CompletedTask;
         }
 
         public IEnumerable<ConfigurationSection> GetConfigurationSections()

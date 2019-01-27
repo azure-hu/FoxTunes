@@ -244,7 +244,7 @@ namespace FoxTunes.ViewModel
             {
                 Logger.Write(this, LogLevel.Warn, "Failed to process clipboard contents: {0}", exception.Message);
             }
-            return Task.CompletedTask;
+            return TaskHelper.CompletedTask;
         }
 
         private async Task AddToPlaylist(IEnumerable<string> paths)

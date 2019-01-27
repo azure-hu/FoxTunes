@@ -14,7 +14,7 @@ namespace FoxTunes
         {
             if (this.Signal == null)
             {
-                return Task.CompletedTask;
+                return TaskHelper.CompletedTask;
             }
             return this.Signal(this, signal);
         }

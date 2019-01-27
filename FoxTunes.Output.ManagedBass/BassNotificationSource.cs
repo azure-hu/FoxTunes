@@ -71,7 +71,7 @@ namespace FoxTunes
         {
             if (this.Stopping == null)
             {
-                return Task.CompletedTask;
+                return TaskHelper.CompletedTask;
             }
             var e = new AsyncEventArgs();
             this.Stopping(this, e);
@@ -84,7 +84,7 @@ namespace FoxTunes
         {
             if (this.Stopped == null)
             {
-                return Task.CompletedTask;
+                return TaskHelper.CompletedTask;
             }
             var e = new AsyncEventArgs();
             this.Stopped(this, e);

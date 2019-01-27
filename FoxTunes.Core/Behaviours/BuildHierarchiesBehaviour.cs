@@ -25,7 +25,7 @@ namespace FoxTunes.Behaviours
                 case CommonSignals.LibraryUpdated:
                     return this.HierarchyManager.Build();
             }
-            return Task.CompletedTask;
+            return TaskHelper.CompletedTask;
         }
     }
 }
