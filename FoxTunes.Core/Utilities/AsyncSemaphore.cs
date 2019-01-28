@@ -37,7 +37,11 @@ namespace FoxTunes
                 if (this.Count > 0)
                 {
                     this.Count--;
+#if NET40
                     return TaskEx.FromResult(false);
+#else
+                    return Task.CompletedTask;
+#endif
                 }
                 else
                 {
@@ -55,7 +59,11 @@ namespace FoxTunes
                 if (this.Count > 0)
                 {
                     this.Count--;
+#if NET40
                     return TaskEx.FromResult(true);
+#else
+                    return Task.CompletedTask;
+#endif
                 }
                 else
                 {

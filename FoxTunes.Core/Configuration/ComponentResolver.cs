@@ -1,4 +1,5 @@
 ﻿using FoxTunes.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 
@@ -24,7 +25,11 @@ namespace FoxTunes
             {
                 return id;
             }
+#if NET40
+            throw new NotImplementedException();
+#else
             id = ConfigurationManager.AppSettings.Get(slot);
+#endif
             if (string.IsNullOrEmpty(id))
             {
                 return ComponentSlots.None;

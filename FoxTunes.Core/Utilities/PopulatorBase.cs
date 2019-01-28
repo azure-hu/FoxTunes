@@ -9,10 +9,10 @@ namespace FoxTunes
     {
         private PopulatorBase()
         {
-#if NET45
-            this.Semaphore = new SemaphoreSlim(1, 1);
-#else
+#if NET40
             this.Semaphore = new AsyncSemaphore(1);
+#else
+            this.Semaphore = new SemaphoreSlim(1, 1);
 #endif
         }
 
@@ -21,10 +21,10 @@ namespace FoxTunes
             this.ReportProgress = reportProgress;
         }
 
-#if NET45
-        public SemaphoreSlim Semaphore { get; private set; }
-#else
+#if NET40
         public AsyncSemaphore Semaphore { get; private set; }
+#else
+        public SemaphoreSlim Semaphore { get; private set; }
 #endif
 
         public bool ReportProgress { get; private set; }

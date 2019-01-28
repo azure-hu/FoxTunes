@@ -10,17 +10,17 @@ namespace FoxTunes
     {
         static BackgroundTask()
         {
-#if NET45
-            Semaphores = new ConcurrentDictionary<string, SemaphoreSlim>();
-#else
+#if NET40
             Semaphores = new ConcurrentDictionary<string, AsyncSemaphore>();
+#else
+            Semaphores = new ConcurrentDictionary<string, SemaphoreSlim>();
 #endif
         }
 
-#if NET45
-        private static ConcurrentDictionary<string, SemaphoreSlim> Semaphores { get; set; }
-#else
+#if NET40
         private static ConcurrentDictionary<string, AsyncSemaphore> Semaphores { get; set; }
+#else
+        private static ConcurrentDictionary<string, SemaphoreSlim> Semaphores { get; set; }
 #endif
 
         protected BackgroundTask(string id)
@@ -56,20 +56,20 @@ namespace FoxTunes
             }
         }
 
-#if NET45
-        public SemaphoreSlim Semaphore
-        {
-            get
-            {
-                return Semaphores.GetOrAdd(this.Id, key => new SemaphoreSlim(this.Concurrency, this.Concurrency));
-            }
-        }
-#else
+#if NET40
         public AsyncSemaphore Semaphore
         {
             get
             {
                 return Semaphores.GetOrAdd(this.Id, key => new AsyncSemaphore(this.Concurrency));
+            }
+        }
+#else
+        public SemaphoreSlim Semaphore
+        {
+            get
+            {
+                return Semaphores.GetOrAdd(this.Id, key => new SemaphoreSlim(this.Concurrency, this.Concurrency));
             }
         }
 #endif
@@ -268,7 +268,11 @@ namespace FoxTunes
         {
             if (this.Started == null)
             {
+#if NET40
                 return TaskEx.FromResult(false);
+#else
+                return Task.CompletedTask;
+#endif
             }
             var e = new AsyncEventArgs();
             this.Started(this, e);
@@ -281,7 +285,11 @@ namespace FoxTunes
         {
             if (this.Completed == null)
             {
+#if NET40
                 return TaskEx.FromResult(false);
+#else
+                return Task.CompletedTask;
+#endif
             }
             var e = new AsyncEventArgs();
             this.Completed(this, e);
@@ -320,7 +328,11 @@ namespace FoxTunes
         {
             if (this.Faulted == null)
             {
+#if NET40
                 return TaskEx.FromResult(false);
+#else
+                return Task.CompletedTask;
+#endif
             }
             var e = new AsyncEventArgs();
             this.Faulted(this, e);
