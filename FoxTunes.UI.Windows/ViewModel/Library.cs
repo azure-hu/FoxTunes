@@ -243,7 +243,7 @@ namespace FoxTunes.ViewModel
                     }
                     break;
             }
-            return TaskHelper.CompletedTask;
+            return TaskEx.FromResult(false);
         }
 
         public ICommand AddToPlaylistCommand
@@ -315,7 +315,7 @@ namespace FoxTunes.ViewModel
             {
                 Logger.Write(this, LogLevel.Warn, "Failed to process clipboard contents: {0}", exception.Message);
             }
-            return TaskHelper.CompletedTask;
+            return TaskEx.FromResult(false);
         }
 
         public event EventHandler SelectedHierarchyChanged = delegate { };

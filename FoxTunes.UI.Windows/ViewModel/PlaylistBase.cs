@@ -78,7 +78,7 @@ namespace FoxTunes.ViewModel
                 case CommonSignals.PlaylistUpdated:
                     return this.ReloadItems();
             }
-            return TaskHelper.CompletedTask;
+            return TaskEx.FromResult(false);
         }
 
         protected virtual Task ReloadItems()

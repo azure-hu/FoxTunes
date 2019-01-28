@@ -219,7 +219,7 @@ namespace FoxTunes.ViewModel
             {
                 Explorer.Select(item.FileName);
             }
-            return TaskHelper.CompletedTask;
+            return TaskEx.FromResult(false);
         }
 
         public ICommand PlaySelectedItemCommand
@@ -306,7 +306,7 @@ namespace FoxTunes.ViewModel
             {
                 Logger.Write(this, LogLevel.Warn, "Failed to process clipboard contents: {0}", exception.Message);
             }
-            return TaskHelper.CompletedTask;
+            return TaskEx.FromResult(false);
         }
 
         private Task AddToPlaylist(IEnumerable<string> paths)

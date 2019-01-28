@@ -58,7 +58,7 @@ namespace FoxTunes
 
         public Task<MetaDataItem> Find(PlaylistItem playlistItem, ArtworkType type)
         {
-            return TaskHelper.FromResult(playlistItem.MetaDatas.FirstOrDefault(
+            return TaskEx.FromResult(playlistItem.MetaDatas.FirstOrDefault(
                  metaDataItem =>
                      metaDataItem.Type == MetaDataItemType.Image &&
                      string.Equals(metaDataItem.Name, Enum.GetName(typeof(ArtworkType), type), StringComparison.OrdinalIgnoreCase) &&

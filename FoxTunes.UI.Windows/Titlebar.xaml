@@ -16,7 +16,7 @@
             <Setter Property="Margin" Value="0,0,0,5"></Setter>
             <Setter Property="FontFamily" Value="Marlett"></Setter>
             <Setter Property="FontSize" Value="12"></Setter>
-            <Setter Property="Shell:WindowChrome.IsHitTestVisibleInChrome" Value="True"></Setter>
+            <!--<Setter Property="Shell:WindowChrome.IsHitTestVisibleInChrome" Value="True"></Setter>-->
             <!-- System -->
             <Setter Property="Background" Value="{DynamicResource NormalBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
@@ -64,7 +64,7 @@
                 <ImageBrush ImageSource="pack://application:,,,/FoxTunes.UI.Windows;component/Images/Fox.ico"></ImageBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <TextBlock Grid.Column="1" Text="{Binding Title, Source={StaticResource ViewModel}}" VerticalAlignment="Center"></TextBlock>
+        <TextBlock Grid.Column="1" Text="{Binding Title, Source={StaticResource ViewModel}}" VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}"></TextBlock>
         <Button Grid.Column="2" Command="{Binding MinimizeCommand, Mode=OneWay, Source={StaticResource ViewModel}}">&#x30;</Button>
         <Button Grid.Column="3" Command="{Binding MaximizeRestoreCommand, Mode=OneWay, Source={StaticResource ViewModel}}">
             <Button.Style>

@@ -96,7 +96,7 @@ namespace FoxTunes
                 }
                 if (this.IsInitialized)
                 {
-                    await Task.Run(() => this.Configuration.Save());
+                    await TaskEx.Run(() => this.Configuration.Save());
                 }
             });
             this.ShowArtwork = this.Configuration.GetElement<BooleanConfigurationElement>(
@@ -144,15 +144,15 @@ namespace FoxTunes
             {
                 case SHOW_ARTWORK:
                     this.ShowArtwork.Toggle();
-                    return Task.Run(() => this.Configuration.Save());
+                    return TaskEx.Run(() => this.Configuration.Save());
                 case SHOW_PLAYLIST:
                     this.ShowPlaylist.Toggle();
-                    return Task.Run(() => this.Configuration.Save());
+                    return TaskEx.Run(() => this.Configuration.Save());
                 case QUIT:
                     Windows.Shutdown();
                     break;
             }
-            return TaskHelper.CompletedTask;
+            return TaskEx.FromResult(false);
         }
 
         public IEnumerable<ConfigurationSection> GetConfigurationSections()

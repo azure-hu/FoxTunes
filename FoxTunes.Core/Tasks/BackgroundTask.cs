@@ -10,10 +10,18 @@ namespace FoxTunes
     {
         static BackgroundTask()
         {
+#if NET45
             Semaphores = new ConcurrentDictionary<string, SemaphoreSlim>();
+#else
+            Semaphores = new ConcurrentDictionary<string, AsyncSemaphore>();
+#endif
         }
 
+#if NET45
         private static ConcurrentDictionary<string, SemaphoreSlim> Semaphores { get; set; }
+#else
+        private static ConcurrentDictionary<string, AsyncSemaphore> Semaphores { get; set; }
+#endif
 
         protected BackgroundTask(string id)
         {
@@ -48,6 +56,7 @@ namespace FoxTunes
             }
         }
 
+#if NET45
         public SemaphoreSlim Semaphore
         {
             get
@@ -55,6 +64,15 @@ namespace FoxTunes
                 return Semaphores.GetOrAdd(this.Id, key => new SemaphoreSlim(this.Concurrency, this.Concurrency));
             }
         }
+#else
+        public AsyncSemaphore Semaphore
+        {
+            get
+            {
+                return Semaphores.GetOrAdd(this.Id, key => new AsyncSemaphore(this.Concurrency));
+            }
+        }
+#endif
 
         private string _Name { get; set; }
 
@@ -222,7 +240,7 @@ namespace FoxTunes
                 }
                 finally
                 {
-                    Semaphore.Release();
+                    this.Semaphore.Release();
                 }
                 Logger.Write(this, LogLevel.Debug, "Background task succeeded.");
                 await this.OnCompleted();
@@ -250,7 +268,7 @@ namespace FoxTunes
         {
             if (this.Started == null)
             {
-                return TaskHelper.CompletedTask;
+                return TaskEx.FromResult(false);
             }
             var e = new AsyncEventArgs();
             this.Started(this, e);
@@ -263,7 +281,7 @@ namespace FoxTunes
         {
             if (this.Completed == null)
             {
-                return TaskHelper.CompletedTask;
+                return TaskEx.FromResult(false);
             }
             var e = new AsyncEventArgs();
             this.Completed(this, e);
@@ -302,7 +320,7 @@ namespace FoxTunes
         {
             if (this.Faulted == null)
             {
-                return TaskHelper.CompletedTask;
+                return TaskEx.FromResult(false);
             }
             var e = new AsyncEventArgs();
             this.Faulted(this, e);
@@ -319,8 +337,6 @@ namespace FoxTunes
             }
             this.IsCancellationRequested = true;
         }
-
-        public bool IsDisposed { get; private set; }
 
         protected virtual async Task WithPopulator(PopulatorBase populator, Func<Task> func)
         {
@@ -347,6 +363,8 @@ namespace FoxTunes
                 populator.IsIndeterminateChanged -= isIndeterminateChanged;
             }
         }
+
+        public bool IsDisposed { get; private set; }
 
         public void Dispose()
         {

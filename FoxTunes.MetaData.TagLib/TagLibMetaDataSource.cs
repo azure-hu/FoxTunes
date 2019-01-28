@@ -14,11 +14,19 @@ namespace FoxTunes
 
         public static ArtworkType ArtworkTypes = ArtworkType.FrontCover | ArtworkType.BackCover;
 
+#if NET45
         public static SemaphoreSlim Semaphore { get; private set; }
+#else
+        public static AsyncSemaphore Semaphore { get; private set; }
+#endif
 
         static TagLibMetaDataSource()
         {
+#if NET45
             Semaphore = new SemaphoreSlim(1, 1);
+#else
+            Semaphore = new AsyncSemaphore(1);
+#endif
         }
 
         public async Task<IEnumerable<MetaDataItem>> GetMetaData(string fileName)

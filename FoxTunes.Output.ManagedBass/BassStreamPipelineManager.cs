@@ -11,10 +11,18 @@ namespace FoxTunes
 
         public BassStreamPipelineManager()
         {
+#if NET45
             this.Semaphore = new SemaphoreSlim(1, 1);
+#else
+            this.Semaphore = new AsyncSemaphore(1);
+#endif
         }
 
+#if NET45
         public SemaphoreSlim Semaphore { get; private set; }
+#else
+        public AsyncSemaphore Semaphore { get; private set; }
+#endif
 
         public IBassStreamPipelineFactory PipelineFactory { get; private set; }
 

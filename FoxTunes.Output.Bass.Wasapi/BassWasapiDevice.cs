@@ -162,7 +162,11 @@ namespace FoxTunes
                 this.Rate = rate;
                 this.Inputs = inputs;
                 this.Outputs = outputs;
+#if NET45
                 this.SupportedFormats = new ReadOnlyDictionary<int, WasapiFormat>(supportedFormats);
+#else
+                this.SupportedFormats = new Dictionary<int, WasapiFormat>(supportedFormats);
+#endif
                 this.Format = format;
             }
 
@@ -180,7 +184,11 @@ namespace FoxTunes
                 }
             }
 
+#if NET45
             public IReadOnlyDictionary<int, WasapiFormat> SupportedFormats { get; private set; }
+#else
+            public Dictionary<int, WasapiFormat> SupportedFormats { get; private set; }
+#endif
 
             public WasapiFormat Format { get; private set; }
         }

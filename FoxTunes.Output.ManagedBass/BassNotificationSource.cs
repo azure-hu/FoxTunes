@@ -46,7 +46,7 @@ namespace FoxTunes
         protected virtual void OnEnding(int Handle, int Channel, int Data, IntPtr User)
         {
             //Critical: Don't block in this call back, it glitches playback.
-            var task = Task.Run(new Action(this.Ending));
+            var task = TaskEx.Run(new Action(this.Ending));
         }
 
         public virtual void Ending()
@@ -58,7 +58,7 @@ namespace FoxTunes
         protected virtual void OnEnded(int Handle, int Channel, int Data, IntPtr User)
         {
             //Critical: Don't block in this call back, it glitches playback.
-            var task = Task.Run(new Action(this.Ended));
+            var task = TaskEx.Run(new Action(this.Ended));
         }
 
         public virtual void Ended()
@@ -71,7 +71,7 @@ namespace FoxTunes
         {
             if (this.Stopping == null)
             {
-                return TaskHelper.CompletedTask;
+                return TaskEx.FromResult(false);
             }
             var e = new AsyncEventArgs();
             this.Stopping(this, e);
@@ -84,7 +84,7 @@ namespace FoxTunes
         {
             if (this.Stopped == null)
             {
-                return TaskHelper.CompletedTask;
+                return TaskEx.FromResult(false);
             }
             var e = new AsyncEventArgs();
             this.Stopped(this, e);

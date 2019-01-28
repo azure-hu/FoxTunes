@@ -65,7 +65,7 @@ namespace FoxTunes.ViewModel
         {
             get
             {
-                if (this._Image == null && this.ShowPlaceholder)
+                if (this._Image == null && this.ShowPlaceholder && this.ThemeLoader.Theme != null)
                 {
                     return new MetaDataItem(Enum.GetName(typeof(ArtworkType), ArtworkType.FrontCover), MetaDataItemType.Image)
                     {

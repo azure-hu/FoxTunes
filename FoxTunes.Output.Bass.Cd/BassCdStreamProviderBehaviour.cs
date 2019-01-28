@@ -153,7 +153,7 @@ namespace FoxTunes
                 case OPEN_CD:
                     return this.OpenCd();
             }
-            return TaskHelper.CompletedTask;
+            return TaskEx.FromResult(false);
         }
 
         public async Task OpenCd()

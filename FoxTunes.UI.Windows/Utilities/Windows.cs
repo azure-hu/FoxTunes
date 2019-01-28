@@ -65,6 +65,7 @@ namespace FoxTunes
 
         private static void OnMainWindowCreated()
         {
+            MainWindow.Closed += OnMainWindowClosed;
             if (MainWindowCreated == null)
             {
                 return;
@@ -73,6 +74,11 @@ namespace FoxTunes
         }
 
         public static event EventHandler MainWindowCreated = delegate { };
+
+        private static void OnMainWindowClosed(object sender, EventArgs e)
+        {
+            _MainWindow = new Lazy<Window>(() => new MainWindow());
+        }
 
         private static Lazy<Window> _MiniWindow { get; set; }
 
@@ -106,6 +112,7 @@ namespace FoxTunes
 
         private static void OnMiniWindowCreated()
         {
+            MiniWindow.Closed += OnMiniWindowClosed;
             if (MiniWindowCreated == null)
             {
                 return;
@@ -114,6 +121,11 @@ namespace FoxTunes
         }
 
         public static event EventHandler MiniWindowCreated = delegate { };
+
+        private static void OnMiniWindowClosed(object sender, EventArgs e)
+        {
+            _MiniWindow = new Lazy<Window>(() => new MiniWindow());
+        }
 
         private static Window _ActiveWindow { get; set; }
 
@@ -205,10 +217,26 @@ namespace FoxTunes
                 }
                 else
                 {
+#if NET45
                     return dispatcher.BeginInvoke(action).Task;
+#else
+                    var source = new TaskCompletionSource<bool>();
+                    dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        try
+                        {
+                            action();
+                        }
+                        finally
+                        {
+                            source.SetResult(false);
+                        }
+                    }));
+                    return source.Task;
+#endif
                 }
             }
-            return TaskHelper.CompletedTask;
+            return TaskEx.FromResult(false);
         }
 
         public static Task Invoke(Func<Task> func)
@@ -222,10 +250,26 @@ namespace FoxTunes
                 }
                 else
                 {
+#if NET45
                     return dispatcher.BeginInvoke(func).Task;
+#else
+                    var source = new TaskCompletionSource<bool>();
+                    dispatcher.BeginInvoke(new Action(async () =>
+                    {
+                        try
+                        {
+                            await func();
+                        }
+                        finally
+                        {
+                            source.SetResult(false);
+                        }
+                    }));
+                    return source.Task;
+#endif
                 }
             }
-            return TaskHelper.CompletedTask;
+            return TaskEx.FromResult(false);
         }
     }
 }

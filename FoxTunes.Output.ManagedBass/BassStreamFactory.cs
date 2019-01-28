@@ -15,11 +15,19 @@ namespace FoxTunes
 
         public BassStreamFactory()
         {
+#if NET45
             this.Semaphore = new SemaphoreSlim(1, 1);
+#else
+            this.Semaphore = new AsyncSemaphore(1);
+#endif
             this.Providers = new SortedList<byte, IBassStreamProvider>(new PriorityComparer());
         }
 
+#if NET45
         public SemaphoreSlim Semaphore { get; private set; }
+#else
+        public AsyncSemaphore Semaphore { get; private set; }
+#endif
 
         private SortedList<byte, IBassStreamProvider> Providers { get; set; }
 

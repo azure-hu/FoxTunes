@@ -67,7 +67,7 @@ namespace FoxTunes
             Logger.Write(this, LogLevel.Error, e.Message);
             if (this.Error == null)
             {
-                return TaskHelper.CompletedTask;
+                return TaskEx.FromResult(false);
             }
             return this.Error(sender, e);
         }

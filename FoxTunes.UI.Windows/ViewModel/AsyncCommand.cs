@@ -37,7 +37,7 @@ namespace FoxTunes.ViewModel
                 return;
             }
             this.OnPhase(CommandPhase.Before, this.Tag, parameter);
-            var task = Task.Run(() =>
+            var task = TaskEx.Run(() =>
             {
                 this.Func();
                 this.OnPhase(CommandPhase.After, this.Tag, parameter);
@@ -80,7 +80,7 @@ namespace FoxTunes.ViewModel
                 return;
             }
             this.OnPhase(CommandPhase.Before, this.Tag, parameter);
-            var task = Task.Run(() =>
+            var task = TaskEx.Run(() =>
             {
                 this.Func((T)parameter);
                 this.OnPhase(CommandPhase.After, this.Tag, parameter);

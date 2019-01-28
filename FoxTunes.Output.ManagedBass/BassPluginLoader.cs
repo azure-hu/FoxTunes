@@ -18,7 +18,6 @@ namespace FoxTunes
             "basshls.dll",
             "bassmidi.dll",
             "bassopus.dll",
-            "basswma.dll",
             "basswv.dll",
             "basszxtune.dll",
             "bass_aac.dll",

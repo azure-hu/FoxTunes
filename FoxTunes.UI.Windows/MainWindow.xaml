@@ -18,9 +18,9 @@
     <Window.Resources>
         <ViewModel:Main x:Key="ViewModel" Core="{Binding}"></ViewModel:Main>
     </Window.Resources>
-    <Shell:WindowChrome.WindowChrome>
+    <!--<Shell:WindowChrome.WindowChrome>
         <Shell:WindowChrome CaptionHeight="30" ResizeBorderThickness="5"></Shell:WindowChrome>
-    </Shell:WindowChrome.WindowChrome>
+    </Shell:WindowChrome.WindowChrome>-->
     <Grid>
         <Grid.LayoutTransform>
             <ScaleTransform ScaleX="{Binding ScalingFactor.Value, Source={StaticResource ViewModel}}" ScaleY="{Binding ScalingFactor.Value, Source={StaticResource ViewModel}}" />

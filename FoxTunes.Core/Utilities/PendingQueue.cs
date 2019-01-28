@@ -13,7 +13,11 @@ namespace FoxTunes
         private PendingQueue()
         {
             this.Queue = new Queue<T>();
+#if NET45
             this.Semaphore = new SemaphoreSlim(1, 1);
+#else
+            this.Semaphore = new AsyncSemaphore(1);
+#endif
         }
 
         public PendingQueue(int timeout)
@@ -30,13 +34,17 @@ namespace FoxTunes
 
         public Queue<T> Queue { get; private set; }
 
+#if NET45
         public SemaphoreSlim Semaphore { get; private set; }
+#else
+        public AsyncSemaphore Semaphore { get; private set; }
+#endif
 
         public int Timeout { get; private set; }
 
-        public void Enqueue(T value)
+        public async Task Enqueue(T value)
         {
-            this.Semaphore.Wait();
+            await this.Semaphore.WaitAsync();
             try
             {
                 this.Queue.Enqueue(value);
@@ -45,7 +53,7 @@ namespace FoxTunes
             {
                 this.Semaphore.Release();
             }
-            Task.Factory.StartNew(() => this.BeginComplete());
+            await this.BeginComplete();
         }
 
         protected async Task BeginComplete()
@@ -69,12 +77,11 @@ namespace FoxTunes
             this.Completing = false;
         }
 
-
         protected virtual Task OnComplete()
         {
             if (this.Complete == null)
             {
-                return TaskHelper.CompletedTask;
+                return TaskEx.FromResult(false);
             }
             var e = new PendingQueueEventArgs<T>(this);
             this.Complete(this, e);

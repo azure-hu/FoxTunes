@@ -102,7 +102,7 @@ namespace FoxTunes
                 var path = match.Value;
                 if ((File.Exists(path) && this.Output.IsSupported(path)) || Directory.Exists(path))
                 {
-                    this.Queue.Enqueue(path);
+                    var task = this.Queue.Enqueue(path);
                 }
             }
         }

@@ -122,7 +122,7 @@ namespace FoxTunes.ViewModel
             get
             {
                 var command = CommandFactory.Instance.CreateCommand(
-                    () => Task.Run(() => this.Configuration.Save()),
+                    () => TaskEx.Run(() => this.Configuration.Save()),
                     () => this.Configuration != null
                 );
                 command.Tag = CommandHints.DISMISS;

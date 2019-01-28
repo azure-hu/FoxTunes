@@ -120,6 +120,10 @@ namespace FoxTunes.ViewModel
             if (Windows.IsMainWindowCreated)
             {
                 Windows.MainWindow.Close();
+                if (!Windows.IsMainWindowCreated)
+                {
+                    Windows.Shutdown();
+                }
             }
         }
 

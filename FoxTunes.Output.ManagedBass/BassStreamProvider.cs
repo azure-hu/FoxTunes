@@ -18,11 +18,19 @@ namespace FoxTunes
 
         public BassStreamProvider()
         {
+#if NET45
             this.Semaphore = new SemaphoreSlim(1, 1);
+#else
+            this.Semaphore = new AsyncSemaphore(1);
+#endif
             this.Streams = new ConcurrentDictionary<BassStreamProviderKey, byte[]>();
         }
 
+#if NET45
         public SemaphoreSlim Semaphore { get; private set; }
+#else
+        public AsyncSemaphore Semaphore { get; private set; }
+#endif
 
         public ConcurrentDictionary<BassStreamProviderKey, byte[]> Streams { get; private set; }
 

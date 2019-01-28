@@ -12,7 +12,11 @@ namespace FoxTunes
             {
                 using (var writer = new StreamWriter(client))
                 {
+#if NET40
                     await client.ConnectAsync();
+#else
+                    client.Connect();
+#endif
                     await writer.WriteLineAsync(message);
                 }
             }

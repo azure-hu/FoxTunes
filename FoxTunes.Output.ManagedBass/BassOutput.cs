@@ -24,10 +24,18 @@ namespace FoxTunes
 
         public BassOutput()
         {
+#if NET45
             this.Semaphore = new SemaphoreSlim(1, 1);
+#else
+            this.Semaphore = new AsyncSemaphore(1);
+#endif
         }
 
+#if NET45
         public SemaphoreSlim Semaphore { get; private set; }
+#else
+        public AsyncSemaphore Semaphore { get; private set; }
+#endif
 
         public override string Name
         {
@@ -353,7 +361,7 @@ namespace FoxTunes
             {
                 Logger.Write(this, LogLevel.Debug, "Not yet started, cannot pre-empt playback of stream from file {0}: {1}", outputStream.FileName, outputStream.ChannelHandle);
             }
-            return Task.FromResult(false);
+            return TaskEx.FromResult(false);
         }
 
         public override async Task Unload(IOutputStream stream)

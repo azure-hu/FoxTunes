@@ -37,7 +37,7 @@ namespace FoxTunes.ViewModel
                         {
                             return this.PlaybackManager.CurrentStream.Play();
                         }
-                        return TaskHelper.CompletedTask;
+                        return TaskEx.FromResult(false);
                     },
                     () =>
                     {
@@ -74,7 +74,7 @@ namespace FoxTunes.ViewModel
                         {
                             return this.PlaybackManager.CurrentStream.Pause();
                         }
-                        return TaskHelper.CompletedTask;
+                        return TaskEx.FromResult(false);
                     },
                     () =>
                     {

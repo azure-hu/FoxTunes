@@ -123,7 +123,7 @@ namespace FoxTunes.ViewModel
                 case CommonSignals.PlaylistColumnsUpdated:
                     return this.Refresh();
             }
-            return TaskHelper.CompletedTask;
+            return TaskEx.FromResult(false);
         }
 
         protected virtual Task Refresh()

@@ -47,7 +47,7 @@ namespace FoxTunes
                         case WM_KEYUP:
                             var modifiers = this.GetModifiers();
                             var keyCode = keys.KeyCode;
-                            var task = Task.Run(() => this.OnInputEvent(modifiers, keyCode));
+                            var task = TaskEx.Run(() => this.OnInputEvent(modifiers, keyCode));
                             break;
                     }
                 }
