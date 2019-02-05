@@ -19,6 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="FoxDb.Core">
+      <HintPath>..\lib\net40\FoxDb.Core.dll</HintPath>
+    </Reference>
     <Reference Include="taglib-sharp">
       <HintPath>../lib/taglib-sharp.dll</HintPath>
     </Reference>

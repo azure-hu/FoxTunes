@@ -94,17 +94,17 @@ namespace FoxTunes.ViewModel
             {
                 return;
             }
-            var metaDataItem = default(MetaDataItem);
+            var fileName = default(string);
             var playlistItem = this.PlaylistManager.CurrentItem;
             if (playlistItem != null)
             {
-                metaDataItem = await this.ArtworkProvider.Find(playlistItem, ArtworkType.FrontCover);
-                if (metaDataItem == null)
+                fileName = await this.ArtworkProvider.Find(playlistItem, CommonImageTypes.FrontCover);
+                if (string.IsNullOrEmpty(fileName))
                 {
-                    metaDataItem = await this.ArtworkProvider.Find(playlistItem.FileName, ArtworkType.FrontCover);
+                    fileName = await this.ArtworkProvider.Find(playlistItem.FileName, CommonImageTypes.FrontCover);
                 }
             }
-            if (metaDataItem == null || !File.Exists(metaDataItem.FileValue))
+            if (string.IsNullOrEmpty(fileName) || !File.Exists(fileName))
             {
                 await Windows.Invoke(() =>
                 {
@@ -123,7 +123,7 @@ namespace FoxTunes.ViewModel
             }
             else
             {
-                await Windows.Invoke(() => this.ImageSource = this.LoadImage(metaDataItem.FileValue));
+                await Windows.Invoke(() => this.ImageSource = this.LoadImage(fileName));
             }
         }
 

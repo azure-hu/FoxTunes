@@ -158,7 +158,7 @@ namespace FoxTunes
 
         public event AsyncEventHandler IsIndeterminateChanged = delegate { };
 
-        public ParallelOptions ParallelOptions
+        public virtual ParallelOptions ParallelOptions
         {
             get
             {

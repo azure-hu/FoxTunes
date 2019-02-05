@@ -7,15 +7,20 @@ namespace FoxTunes
     {
         public ICore Core { get; private set; }
 
+        public IConfiguration Configuration { get; private set; }
+
+        public bool Artwork { get; private set; }
+
         public override void InitializeComponent(ICore core)
         {
             this.Core = core;
+            this.Configuration = core.Components.Configuration;
             base.InitializeComponent(core);
         }
 
         public override IMetaDataSource Create()
         {
-            var source = new TagLibMetaDataSource();
+            var source = new TagLibMetaDataSource(new TagLibMetaDataMapping(this.Configuration));
             source.InitializeComponent(this.Core);
             return source;
         }

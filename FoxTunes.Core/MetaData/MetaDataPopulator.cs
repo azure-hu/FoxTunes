@@ -30,12 +30,37 @@ namespace FoxTunes
 
         public IDatabaseQuery Query { get; private set; }
 
+        public IConfiguration Configuration { get; private set; }
+
         public IMetaDataSourceFactory MetaDataSourceFactory { get; private set; }
+
+        public int Threads { get; private set; }
 
         private MetaDataWriter Writer { get; set; }
 
+        public override ParallelOptions ParallelOptions
+        {
+            get
+            {
+                return new ParallelOptions()
+                {
+                    MaxDegreeOfParallelism = this.Threads > 0 ? this.Threads : Environment.ProcessorCount
+                };
+            }
+        }
+
         public override void InitializeComponent(ICore core)
         {
+            this.Configuration = core.Components.Configuration;
+            //TODO: Weird dependency.
+            var element = this.Configuration.GetElement(
+                "5CCE5DA6-E4C0-49CD-9D5C-BD60FC036832",
+                "AAAA71E7-A0B4-4A69-9B23-74661E9476F4"
+            );
+            if (element != null)
+            {
+                element.ConnectValue<string>(value => this.Threads = Convert.ToInt32(value));
+            }
             this.MetaDataSourceFactory = core.Factories.MetaDataSource;
             base.InitializeComponent(core);
         }
