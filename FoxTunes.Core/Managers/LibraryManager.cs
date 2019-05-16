@@ -289,6 +289,7 @@ namespace FoxTunes
                                 break;
                         }
                     }, transaction);
+                    transaction.Commit();
                 }
             }
         }

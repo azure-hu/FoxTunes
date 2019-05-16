@@ -28,6 +28,7 @@ namespace FoxTunes
             this.Id = id;
             this.Name = name;
             this.Description = description;
+            this.Path = path;
             this.Attributes = attributes;
         }
 

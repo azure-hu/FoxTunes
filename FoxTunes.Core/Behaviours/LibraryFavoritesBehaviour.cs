@@ -7,9 +7,9 @@ namespace FoxTunes
     [ComponentDependency(Slot = ComponentSlots.Output)]
     public class LibraryFavoritesBehaviour : StandardBehaviour, IInvocableComponent, IConfigurableComponent
     {
-        public const string TOGGLE_FAVORITE = "AAAA";
+        public const string TOGGLE_FAVORITE = "AAAD";
 
-        public const string TOGGLE_SHOW_FAVORITES = "BBBB";
+        public const string TOGGLE_SHOW_FAVORITES = "AAAE";
 
         public ILibraryManager LibraryManager { get; private set; }
 
@@ -46,8 +46,20 @@ namespace FoxTunes
         {
             get
             {
-                yield return new InvocationComponent(InvocationComponent.CATEGORY_LIBRARY, TOGGLE_FAVORITE, "Favorite", path: "Favorites", attributes: this.IsFavorite ? InvocationComponent.ATTRIBUTE_SELECTED : InvocationComponent.ATTRIBUTE_NONE);
-                yield return new InvocationComponent(InvocationComponent.CATEGORY_LIBRARY, TOGGLE_SHOW_FAVORITES, "Show Favorites", path: "Favorites", attributes: this.ShowFavorites.Value ? InvocationComponent.ATTRIBUTE_SELECTED : InvocationComponent.ATTRIBUTE_NONE);
+                yield return new InvocationComponent(
+                    InvocationComponent.CATEGORY_LIBRARY,
+                    TOGGLE_FAVORITE,
+                    "Favorite",
+                    path: "Favorites",
+                    attributes: (byte)(InvocationComponent.ATTRIBUTE_SEPARATOR | (this.IsFavorite ? InvocationComponent.ATTRIBUTE_SELECTED : InvocationComponent.ATTRIBUTE_NONE))
+                );
+                yield return new InvocationComponent(
+                    InvocationComponent.CATEGORY_LIBRARY,
+                    TOGGLE_SHOW_FAVORITES,
+                    "Show Favorites",
+                    path: "Favorites",
+                    attributes: this.ShowFavorites.Value ? InvocationComponent.ATTRIBUTE_SELECTED : InvocationComponent.ATTRIBUTE_NONE
+                );
             }
         }
 
