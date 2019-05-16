@@ -19,7 +19,7 @@ namespace FoxTunes {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -171,6 +171,22 @@ namespace FoxTunes {
         internal static string ClearPlaylistMetaDataItems {
             get {
                 return ResourceManager.GetString("ClearPlaylistMetaDataItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT CASE WHEN EXISTS(
+        ///	SELECT *
+        ///	FROM &quot;LibraryItems&quot;
+        ///		JOIN &quot;LibraryHierarchyItem_LibraryItem&quot;
+        ///			ON &quot;LibraryItems&quot;.&quot;Id&quot; = &quot;LibraryHierarchyItem_LibraryItem&quot;.&quot;LibraryItem_Id&quot;
+        ///	WHERE &quot;LibraryHierarchyItem_LibraryItem&quot;.&quot;LibraryHierarchyItem_Id&quot; = @libraryHierarchyItemId
+        ///		AND &quot;LibraryItems&quot;.&quot;Favorite&quot; = 1
+        ///) THEN 1 ELSE 0 END.
+        /// </summary>
+        internal static string GetIsFavorite {
+            get {
+                return ResourceManager.GetString("GetIsFavorite", resourceCulture);
             }
         }
         
@@ -329,6 +345,22 @@ namespace FoxTunes {
         internal static string RemovePlaylistItems {
             get {
                 return ResourceManager.GetString("RemovePlaylistItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE &quot;LibraryItems&quot;
+        ///SET &quot;Favorite&quot; = @isFavorite
+        ///WHERE &quot;Id&quot; IN
+        ///(
+        ///	SELECT &quot;LibraryHierarchyItem_LibraryItem&quot;.&quot;LibraryItem_Id&quot;
+        ///	FROM &quot;LibraryHierarchyItem_LibraryItem&quot;
+        ///	WHERE &quot;LibraryHierarchyItem_LibraryItem&quot;.&quot;LibraryHierarchyItem_Id&quot; = @libraryHierarchyItemId
+        ///).
+        /// </summary>
+        internal static string SetIsFavorite {
+            get {
+                return ResourceManager.GetString("SetIsFavorite", resourceCulture);
             }
         }
         

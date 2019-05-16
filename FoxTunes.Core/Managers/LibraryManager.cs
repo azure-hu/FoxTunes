@@ -254,6 +254,45 @@ namespace FoxTunes
             }
         }
 
+        public async Task<bool> GetIsFavorite(LibraryHierarchyNode libraryHierarchyNode)
+        {
+            using (var database = this.DatabaseFactory.Create())
+            {
+                using (var transaction = database.BeginTransaction(database.PreferredIsolationLevel))
+                {
+                    return await database.ExecuteScalarAsync<bool>(database.Queries.GetIsFavorite, (parameters, phase) =>
+                    {
+                        switch (phase)
+                        {
+                            case DatabaseParameterPhase.Fetch:
+                                parameters["libraryHierarchyItemId"] = libraryHierarchyNode.Id;
+                                break;
+                        }
+                    }, transaction);
+                }
+            }
+        }
+
+        public async Task SetIsFavorite(LibraryHierarchyNode libraryHierarchyNode, bool isFavorite)
+        {
+            using (var database = this.DatabaseFactory.Create())
+            {
+                using (var transaction = database.BeginTransaction(database.PreferredIsolationLevel))
+                {
+                    await database.ExecuteAsync(database.Queries.SetIsFavorite, (parameters, phase) =>
+                    {
+                        switch (phase)
+                        {
+                            case DatabaseParameterPhase.Fetch:
+                                parameters["libraryHierarchyItemId"] = libraryHierarchyNode.Id;
+                                parameters["isFavorite"] = isFavorite;
+                                break;
+                        }
+                    }, transaction);
+                }
+            }
+        }
+
         protected virtual Task OnBackgroundTask(IBackgroundTask backgroundTask)
         {
             if (this.BackgroundTask == null)
