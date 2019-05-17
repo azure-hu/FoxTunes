@@ -20,6 +20,10 @@ namespace FoxTunes
 
         public IDatabaseFactory DatabaseFactory { get; private set; }
 
+        public IConfiguration Configuration { get; private set; }
+
+        public BooleanConfigurationElement ShowFavorites { get; private set; }
+
         private string _Filter { get; set; }
 
         public string Filter
@@ -56,6 +60,11 @@ namespace FoxTunes
             this.LibraryManager = core.Managers.Library;
             this.LibraryHierarchyCache = core.Components.LibraryHierarchyCache;
             this.DatabaseFactory = core.Factories.Database;
+            this.Configuration = core.Components.Configuration;
+            this.ShowFavorites = this.Configuration.GetElement<BooleanConfigurationElement>(
+                LibraryFavoritesBehaviourConfiguration.SECTION,
+                LibraryFavoritesBehaviourConfiguration.SHOW_FAVORITES_ELEMENT
+            );
             base.InitializeComponent(core);
         }
 
@@ -138,6 +147,10 @@ namespace FoxTunes
                                 if (parameters.Contains("filter"))
                                 {
                                     parameters["filter"] = this.GetFilter();
+                                }
+                                if (this.ShowFavorites.Value)
+                                {
+                                    parameters["favorite"] = true;
                                 }
                                 break;
                         }

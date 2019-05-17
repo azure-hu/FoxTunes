@@ -13,6 +13,8 @@ namespace FoxTunes
 
         public ILibraryManager LibraryManager { get; private set; }
 
+        public ISignalEmitter SignalEmitter { get; private set; }
+
         public IConfiguration Configuration { get; private set; }
 
         public BooleanConfigurationElement ShowFavorites { get; private set; }
@@ -34,6 +36,7 @@ namespace FoxTunes
         public override void InitializeComponent(ICore core)
         {
             this.LibraryManager = core.Managers.Library;
+            this.SignalEmitter = core.Components.SignalEmitter;
             this.Configuration = core.Components.Configuration;
             this.ShowFavorites = this.Configuration.GetElement<BooleanConfigurationElement>(
                 LibraryFavoritesBehaviourConfiguration.SECTION,
@@ -63,7 +66,7 @@ namespace FoxTunes
             }
         }
 
-        public Task InvokeAsync(IInvocationComponent component)
+        public async Task InvokeAsync(IInvocationComponent component)
         {
             switch (component.Id)
             {
@@ -71,26 +74,19 @@ namespace FoxTunes
                     var libraryHierarchyNode = this.LibraryManager.SelectedItem;
                     if (libraryHierarchyNode != null)
                     {
-#if NET40
-                        return TaskEx.Run(async () => this.LibraryManager.SetIsFavorite(libraryHierarchyNode, !await this.LibraryManager.GetIsFavorite(libraryHierarchyNode)));
-#else
-                        return Task.Run(async () => this.LibraryManager.SetIsFavorite(libraryHierarchyNode, !await this.LibraryManager.GetIsFavorite(libraryHierarchyNode)));
-#endif
+                        await this.LibraryManager.SetIsFavorite(libraryHierarchyNode, !await this.LibraryManager.GetIsFavorite(libraryHierarchyNode));
+                        if (this.ShowFavorites.Value)
+                        {
+                            await this.SignalEmitter.Send(new Signal(this, CommonSignals.HierarchiesUpdated));
+                        }
                     }
                     break;
                 case TOGGLE_SHOW_FAVORITES:
                     this.ShowFavorites.Toggle();
-#if NET40
-                    return TaskEx.Run(() => this.Configuration.Save());
-#else
-                    return Task.Run(() => this.Configuration.Save());
-#endif
+                    await this.SignalEmitter.Send(new Signal(this, CommonSignals.HierarchiesUpdated));
+                    this.Configuration.Save();
+                    break;
             }
-#if NET40
-            return TaskEx.FromResult(false);
-#else
-            return Task.CompletedTask;
-#endif
         }
 
         public IEnumerable<ConfigurationSection> GetConfigurationSections()

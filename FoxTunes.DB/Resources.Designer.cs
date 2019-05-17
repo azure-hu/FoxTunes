@@ -181,8 +181,8 @@ namespace FoxTunes {
         ///		JOIN &quot;LibraryHierarchyItem_LibraryItem&quot;
         ///			ON &quot;LibraryItems&quot;.&quot;Id&quot; = &quot;LibraryHierarchyItem_LibraryItem&quot;.&quot;LibraryItem_Id&quot;
         ///	WHERE &quot;LibraryHierarchyItem_LibraryItem&quot;.&quot;LibraryHierarchyItem_Id&quot; = @libraryHierarchyItemId
-        ///		AND &quot;LibraryItems&quot;.&quot;Favorite&quot; = 1
-        ///) THEN 1 ELSE 0 END.
+        ///		AND &quot;LibraryItems&quot;.&quot;Favorite&quot; = 0
+        ///) THEN 0 ELSE 1 END.
         /// </summary>
         internal static string GetIsFavorite {
             get {
@@ -194,8 +194,13 @@ namespace FoxTunes {
         ///   Looks up a localized string similar to SELECT &quot;LibraryHierarchyItems&quot;.&quot;Id&quot;, &quot;LibraryHierarchy_Id&quot;, &quot;Value&quot;, &quot;IsLeaf&quot;
         ///FROM &quot;LibraryHierarchyItems&quot;
         ///WHERE &quot;LibraryHierarchy_Id&quot; = @libraryHierarchyId
-        ///	AND ((@libraryHierarchyItemId IS NULL AND &quot;LibraryHierarchyItems&quot;.&quot;Parent_Id&quot; IS NULL) OR &quot;LibraryHierarchyItems&quot;.&quot;Parent_Id&quot; = @libraryHierarchyItemId)
-        ///ORDER BY &quot;Value&quot;.
+        ///	AND ((@libraryHierarchyItemId IS NULL AND &quot;LibraryHierarchyItems&quot;.&quot;Parent_Id&quot; IS NULL) 
+        ///		OR &quot;LibraryHierarchyItems&quot;.&quot;Parent_Id&quot; = @libraryHierarchyItemId)
+        ///	AND (@favorite IS NULL OR EXISTS(
+        ///		SELECT * 
+        ///		FROM &quot;LibraryItems&quot; 
+        ///			JOIN &quot;LibraryHierarchyItem_LibraryItem&quot; 
+        ///				ON &quot;LibraryHierarchyItem_LibraryItem&quot;.&quot;LibraryItem_Id&quot; = &quot;LibraryItems&quot; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GetLibraryHierarchyNodes {
             get {
